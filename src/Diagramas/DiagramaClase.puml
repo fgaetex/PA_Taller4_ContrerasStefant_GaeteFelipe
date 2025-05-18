@@ -26,11 +26,9 @@ package cl.ucn.disc.pa.taller3 {
         class SistemaOfertasUCN {
             - contenedorOfertas: ContenedorOfertas
             - usuarioActual: Usuario
-            - usuarios: List<Usuario>
-            - instance: SistemaOfertasUCN
+            - usuarios: Usuario[]
             - archivoOfertas: String
             - SistemaOfertasUCN()
-            + getInstance(): SistemaOfertasUCN
             + registrarUsuario(nombre: String, rut: String, correo: String, contrasenia: String): boolean
             + iniciarSesion(rut: String, contrasenia: String): boolean
             + ingresarOferta(): void
@@ -57,9 +55,9 @@ package cl.ucn.disc.pa.taller3 {
             + validarCarreras(carreras: String): boolean
             + validarCantidadEstudiantes(cantidad: int): boolean
             + leerArchivoOfertas(): void
-            + guardarUsuarios(usuarios: List<Usuario>, rutaArchivo: String): boolean
-            + leerUsuarios(rutaArchivo: String): List<Usuario>
-            + guardarOfertas(ofertas: List<Oferta>, rutaArchivo: String): boolean
+            + guardarUsuarios(usuarios: Usuario[], rutaArchivo: String): boolean
+            + leerUsuarios(rutaArchivo: String): Usuario[]
+            + guardarOfertas(ofertas: Oferta[], rutaArchivo: String): boolean
             + getUsuarioActual(): Usuario
         }
     }
@@ -93,11 +91,11 @@ package cl.ucn.disc.pa.taller3 {
         }
 
         abstract class ActividadEmpresa extends Oferta {
-            - fechaInicio: localDate
+            - fechaInicio: LocalDate
             - nombreEmpresa: String
             - nombreGuia: String
             + ActividadEmpresa(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
-                             fechaInicio: localDate, nombreEmpresa: String, nombreGuia: String)
+                             fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String)
             + gets()
             + sets()
         }
@@ -118,11 +116,11 @@ package cl.ucn.disc.pa.taller3 {
         class Capstone extends ActividadEmpresa {
             - tipoProyecto: String
             - duracionMeses: int
-            - carrerasNecesarias: List<String>
+            - carrerasNecesarias: String[]
             - cantidadMinEstudiantes: int
             + Capstone(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
-                    fechaInicio: localDate, nombreEmpresa: String, nombreGuia: String, tipoProyecto: String,
-                    duracionMeses: int, carrerasNecesarias: List<String>, cantidadMinEstudiantes: int)
+                    fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String, tipoProyecto: String,
+                    duracionMeses: int, carrerasNecesarias: String[], cantidadMinEstudiantes: int)
             + gets()
             + sets()
             + toString(): String
@@ -131,14 +129,14 @@ package cl.ucn.disc.pa.taller3 {
         class Practica extends ActividadEmpresa {
             - poseeRemuneracion: boolean
             + Practica(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
-                    fechaInicio: localDate, nombreEmpresa: String, nombreGuia: String, poseeRemuneracion: boolean)
+                    fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String, poseeRemuneracion: boolean)
             + gets()
             + sets()
             + toString(): String
         }
 
         class ContenedorOfertas {
-            - ofertas: List<Oferta>
+            - ofertas: Oferta[]
             - cantidadMaxima: int
             - cantidadActual: int
             + ContenedorOfertas(cantidadMaxima: int)
@@ -152,7 +150,7 @@ package cl.ucn.disc.pa.taller3 {
     }
 }
 
-' Relaciones
+
 Usuario "1" -- "*" Oferta : gestiona >
 VistaConsola "1" *-- "1" SistemaOfertasUCN : utiliza
 SistemaOfertasUCN ..|> SistemaOfertas
