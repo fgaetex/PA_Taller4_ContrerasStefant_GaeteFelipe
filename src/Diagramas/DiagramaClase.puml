@@ -71,11 +71,8 @@ package cl.ucn.disc.pa.taller3 {
             - correo: String
             - contrasenia: String
             + Usuario(nombre: String, rut: String, correo: String, contrasenia: String)
-            + getNombre(): String
-            + setNombre(nombre: String): void
-            + getRut(): String
-            + getCorreo(): String
-            + setCorreo(correo: String): void
+            + gets()
+            + sets()
             + verificarContrasenia(contrasenia: String): boolean
             + toString(): String
         }
@@ -89,17 +86,8 @@ package cl.ucn.disc.pa.taller3 {
             - fechaPublicacion: Date
             - fechaCierre: Date
             + Oferta(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int)
-            + getId(): String
-            + getTitulo(): String
-            + setTitulo(titulo: String): void
-            + getDescripcion(): String
-            + setDescripcion(descripcion: String): void
-            + getNombreUnidad(): String
-            + setNombreUnidad(nombreUnidad: String): void
-            + getDuracionDias(): int
-            + setDuracionDias(duracionDias: int): void
-            + getFechaPublicacion(): Date
-            + getFechaCierre(): Date
+            + gets()
+            + sets()
             + calcularFechas(): void
             + toString(): String
         }
@@ -110,12 +98,8 @@ package cl.ucn.disc.pa.taller3 {
             - nombreGuia: String
             + ActividadEmpresa(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
                              fechaInicio: Date, nombreEmpresa: String, nombreGuia: String)
-            + getFechaInicio(): Date
-            + setFechaInicio(fechaInicio: Date): void
-            + getNombreEmpresa(): String
-            + setNombreEmpresa(nombreEmpresa: String): void
-            + getNombreGuia(): String
-            + setNombreGuia(nombreGuia: String): void
+            + gets()
+            + sets()
         }
 
         class Ayudantia extends Oferta {
@@ -126,16 +110,8 @@ package cl.ucn.disc.pa.taller3 {
             - tipoAyudantia: String
             + Ayudantia(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
                       nombreAsignatura: String, rolAyudante: String, horasSemanales: int, promedioMinimo: double, tipoAyudantia: String)
-            + getNombreAsignatura(): String
-            + setNombreAsignatura(nombreAsignatura: String): void
-            + getRolAyudante(): String
-            + setRolAyudante(rolAyudante: String): void
-            + getHorasSemanales(): int
-            + setHorasSemanales(horasSemanales: int): void
-            + getPromedioMinimo(): double
-            + setPromedioMinimo(promedioMinimo: double): void
-            + getTipoAyudantia(): String
-            + setTipoAyudantia(tipoAyudantia: String): void
+            + gets()
+            + sets()
             + toString(): String
         }
 
@@ -147,14 +123,8 @@ package cl.ucn.disc.pa.taller3 {
             + Capstone(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
                     fechaInicio: Date, nombreEmpresa: String, nombreGuia: String, tipoProyecto: String,
                     duracionMeses: int, carrerasNecesarias: List<String>, cantidadMinEstudiantes: int)
-            + getTipoProyecto(): String
-            + setTipoProyecto(tipoProyecto: String): void
-            + getDuracionMeses(): int
-            + setDuracionMeses(duracionMeses: int): void
-            + getCarrerasNecesarias(): List<String>
-            + setCarrerasNecesarias(carrerasNecesarias: List<String>): void
-            + getCantidadMinEstudiantes(): int
-            + setCantidadMinEstudiantes(cantidadMinEstudiantes: int): void
+            + gets()
+            + sets()
             + toString(): String
         }
 
@@ -162,8 +132,8 @@ package cl.ucn.disc.pa.taller3 {
             - poseeRemuneracion: boolean
             + Practica(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
                     fechaInicio: Date, nombreEmpresa: String, nombreGuia: String, poseeRemuneracion: boolean)
-            + isPoseeRemuneracion(): boolean
-            + setPoseeRemuneracion(poseeRemuneracion: boolean): void
+            + gets()
+            + sets()
             + toString(): String
         }
 
