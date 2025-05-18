@@ -83,8 +83,8 @@ package cl.ucn.disc.pa.taller3 {
             - descripcion: String
             - nombreUnidad: String
             - duracionDias: int
-            - fechaPublicacion: Date
-            - fechaCierre: Date
+            - fechaPublicacion: LocalDate
+            - fechaCierre: LocalDate
             + Oferta(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int)
             + gets()
             + sets()
@@ -93,11 +93,11 @@ package cl.ucn.disc.pa.taller3 {
         }
 
         abstract class ActividadEmpresa extends Oferta {
-            - fechaInicio: Date
+            - fechaInicio: localDate
             - nombreEmpresa: String
             - nombreGuia: String
             + ActividadEmpresa(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
-                             fechaInicio: Date, nombreEmpresa: String, nombreGuia: String)
+                             fechaInicio: localDate, nombreEmpresa: String, nombreGuia: String)
             + gets()
             + sets()
         }
@@ -121,7 +121,7 @@ package cl.ucn.disc.pa.taller3 {
             - carrerasNecesarias: List<String>
             - cantidadMinEstudiantes: int
             + Capstone(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
-                    fechaInicio: Date, nombreEmpresa: String, nombreGuia: String, tipoProyecto: String,
+                    fechaInicio: localDate, nombreEmpresa: String, nombreGuia: String, tipoProyecto: String,
                     duracionMeses: int, carrerasNecesarias: List<String>, cantidadMinEstudiantes: int)
             + gets()
             + sets()
@@ -131,7 +131,7 @@ package cl.ucn.disc.pa.taller3 {
         class Practica extends ActividadEmpresa {
             - poseeRemuneracion: boolean
             + Practica(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
-                    fechaInicio: Date, nombreEmpresa: String, nombreGuia: String, poseeRemuneracion: boolean)
+                    fechaInicio: localDate, nombreEmpresa: String, nombreGuia: String, poseeRemuneracion: boolean)
             + gets()
             + sets()
             + toString(): String
