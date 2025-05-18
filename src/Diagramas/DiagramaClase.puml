@@ -11,7 +11,7 @@ package cl.ucn.disc.pa.taller3 {
         }
     }
 
-    package servicios {
+    package servicio {
         interface SistemaOfertas {
             + ingresarOferta(): void
             + buscarOferta(): void
