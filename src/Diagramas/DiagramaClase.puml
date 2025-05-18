@@ -1,0 +1,192 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package cl.ucn.disc.pa.taller3 {
+    package vista {
+        class VistaConsola {
+            - sistema: SistemaOfertasUCN
+            + VistaConsola(sistema: SistemaOfertasUCN)
+            + iniciar(): void
+            + lecturaEnteros(frase: String): int
+        }
+    }
+
+    package servicios {
+        interface SistemaOfertas {
+            + ingresarOferta(): void
+            + buscarOferta(): void
+            + verOfertas(): void
+            + editarOferta(): void
+            + eliminarOferta(): void
+            + verPerfil(): void
+            + editarPerfil(): void
+            + cerrarSesion(): void
+        }
+
+        class SistemaOfertasUCN {
+            - contenedorOfertas: ContenedorOfertas
+            - usuarioActual: Usuario
+            - usuarios: List<Usuario>
+            - instance: SistemaOfertasUCN
+            - archivoOfertas: String
+            - SistemaOfertasUCN()
+            + getInstance(): SistemaOfertasUCN
+            + registrarUsuario(nombre: String, rut: String, correo: String, contrasenia: String): boolean
+            + iniciarSesion(rut: String, contrasenia: String): boolean
+            + ingresarOferta(): void
+            + buscarOferta(): void
+            + verOfertas(): void
+            + editarOferta(): void
+            + eliminarOferta(): void
+            + verPerfil(): void
+            + editarPerfil(): void
+            + cerrarSesion(): void
+            + validarRut(rut: String): boolean
+            + validarNombreUsuario(nombre: String): boolean
+            + validarCorreo(correo: String): boolean
+            + validarContrasenia(contrasenia: String): boolean
+            + validarTitulo(titulo: String): boolean
+            + validarDescripcion(descripcion: String): boolean
+            + validarDuracion(duracion: int): boolean
+            + validarPromedio(promedio: double): boolean
+            + validarTipoAyudantia(tipo: String): boolean
+            + validarAsignatura(asignatura: String): boolean
+            + validarHorasSemanales(horas: int): boolean
+            + validarTipoProyecto(tipo: String): boolean
+            + validarDuracionMeses(meses: int): boolean
+            + validarCarreras(carreras: String): boolean
+            + validarCantidadEstudiantes(cantidad: int): boolean
+            + leerArchivoOfertas(): void
+            + guardarUsuarios(usuarios: List<Usuario>, rutaArchivo: String): boolean
+            + leerUsuarios(rutaArchivo: String): List<Usuario>
+            + guardarOfertas(ofertas: List<Oferta>, rutaArchivo: String): boolean
+            + getUsuarioActual(): Usuario
+        }
+    }
+
+    package dominio {
+        class Usuario {
+            - nombre: String
+            - rut: String
+            - correo: String
+            - contrasenia: String
+            + Usuario(nombre: String, rut: String, correo: String, contrasenia: String)
+            + getNombre(): String
+            + setNombre(nombre: String): void
+            + getRut(): String
+            + getCorreo(): String
+            + setCorreo(correo: String): void
+            + verificarContrasenia(contrasenia: String): boolean
+            + toString(): String
+        }
+
+        abstract class Oferta {
+            - id: String
+            - titulo: String
+            - descripcion: String
+            - nombreUnidad: String
+            - duracionDias: int
+            - fechaPublicacion: Date
+            - fechaCierre: Date
+            + Oferta(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int)
+            + getId(): String
+            + getTitulo(): String
+            + setTitulo(titulo: String): void
+            + getDescripcion(): String
+            + setDescripcion(descripcion: String): void
+            + getNombreUnidad(): String
+            + setNombreUnidad(nombreUnidad: String): void
+            + getDuracionDias(): int
+            + setDuracionDias(duracionDias: int): void
+            + getFechaPublicacion(): Date
+            + getFechaCierre(): Date
+            + calcularFechas(): void
+            + toString(): String
+        }
+
+        abstract class ActividadEmpresa extends Oferta {
+            - fechaInicio: Date
+            - nombreEmpresa: String
+            - nombreGuia: String
+            + ActividadEmpresa(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
+                             fechaInicio: Date, nombreEmpresa: String, nombreGuia: String)
+            + getFechaInicio(): Date
+            + setFechaInicio(fechaInicio: Date): void
+            + getNombreEmpresa(): String
+            + setNombreEmpresa(nombreEmpresa: String): void
+            + getNombreGuia(): String
+            + setNombreGuia(nombreGuia: String): void
+        }
+
+        class Ayudantia extends Oferta {
+            - nombreAsignatura: String
+            - rolAyudante: String
+            - horasSemanales: int
+            - promedioMinimo: double
+            - tipoAyudantia: String
+            + Ayudantia(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
+                      nombreAsignatura: String, rolAyudante: String, horasSemanales: int, promedioMinimo: double, tipoAyudantia: String)
+            + getNombreAsignatura(): String
+            + setNombreAsignatura(nombreAsignatura: String): void
+            + getRolAyudante(): String
+            + setRolAyudante(rolAyudante: String): void
+            + getHorasSemanales(): int
+            + setHorasSemanales(horasSemanales: int): void
+            + getPromedioMinimo(): double
+            + setPromedioMinimo(promedioMinimo: double): void
+            + getTipoAyudantia(): String
+            + setTipoAyudantia(tipoAyudantia: String): void
+            + toString(): String
+        }
+
+        class Capstone extends ActividadEmpresa {
+            - tipoProyecto: String
+            - duracionMeses: int
+            - carrerasNecesarias: List<String>
+            - cantidadMinEstudiantes: int
+            + Capstone(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
+                    fechaInicio: Date, nombreEmpresa: String, nombreGuia: String, tipoProyecto: String,
+                    duracionMeses: int, carrerasNecesarias: List<String>, cantidadMinEstudiantes: int)
+            + getTipoProyecto(): String
+            + setTipoProyecto(tipoProyecto: String): void
+            + getDuracionMeses(): int
+            + setDuracionMeses(duracionMeses: int): void
+            + getCarrerasNecesarias(): List<String>
+            + setCarrerasNecesarias(carrerasNecesarias: List<String>): void
+            + getCantidadMinEstudiantes(): int
+            + setCantidadMinEstudiantes(cantidadMinEstudiantes: int): void
+            + toString(): String
+        }
+
+        class Practica extends ActividadEmpresa {
+            - poseeRemuneracion: boolean
+            + Practica(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
+                    fechaInicio: Date, nombreEmpresa: String, nombreGuia: String, poseeRemuneracion: boolean)
+            + isPoseeRemuneracion(): boolean
+            + setPoseeRemuneracion(poseeRemuneracion: boolean): void
+            + toString(): String
+        }
+
+        class ContenedorOfertas {
+            - ofertas: List<Oferta>
+            - cantidadMaxima: int
+            - cantidadActual: int
+            + ContenedorOfertas(cantidadMaxima: int)
+            + getCantidadActual(): int
+            + agregar(nueva: Oferta): void
+            + buscarPorId(id: String): int
+            + buscarPorTitulo(titulo: String): int
+            + obtener(posicion: int): Oferta
+            + eliminar(id: String): boolean
+        }
+    }
+}
+
+' Relaciones
+Usuario "1" -- "*" Oferta : gestiona >
+VistaConsola "1" *-- "1" SistemaOfertasUCN : utiliza
+SistemaOfertasUCN ..|> SistemaOfertas
+SistemaOfertasUCN "1" *-- "1" ContenedorOfertas
+ContenedorOfertas o-- Oferta : contiene
+
+@enduml
