@@ -2,66 +2,66 @@
 'https://plantuml.com/class-diagram
 
 package cl.ucn.disc.pa.taller3 {
-    package vista {
-        class VistaConsola {
-            - sistema: SistemaOfertasUCN
-            + VistaConsola(sistema: SistemaOfertasUCN)
-            + iniciar(): void
-            + lecturaEnteros(frase: String): int
-        }
-    }
+ package cl.ucn.disc.pa.taller3 {
+     package vista {
+         class VistaConsola {
+             - sistema: SistemaOfertas
+             + VistaConsola(sistema: SistemaOfertas)
+             + iniciar(): void
+             + lecturaEnteros(frase: String): int
+         }
+     }
 
-    package servicio {
-        interface SistemaOfertas {
-            + ingresarOferta(): void
-            + buscarOferta(): void
-            + verOfertas(): void
-            + editarOferta(): void
-            + eliminarOferta(): void
-            + verPerfil(): void
-            + editarPerfil(): void
-            + cerrarSesion(): void
-        }
+     package servicios {
+         interface SistemaOfertas {
+             + ingresarOferta(): void
+             + buscarOferta(): void
+             + verOfertas(): void
+             + editarOferta(): void
+             + eliminarOferta(): void
+             + verPerfil(): void
+             + editarPerfil(): void
+             + cerrarSesion(): void
+         }
 
-        class SistemaOfertasUCN {
-            - contenedorOfertas: ContenedorOfertas
-            - usuarioActual: Usuario
-            - usuarios: Usuario[]
-            - archivoOfertas: String
-            - SistemaOfertasUCN()
-            + registrarUsuario(nombre: String, rut: String, correo: String, contrasenia: String): boolean
-            + iniciarSesion(rut: String, contrasenia: String): boolean
-            + ingresarOferta(): void
-            + buscarOferta(): void
-            + verOfertas(): void
-            + editarOferta(): void
-            + eliminarOferta(): void
-            + verPerfil(): void
-            + editarPerfil(): void
-            + cerrarSesion(): void
-            + validarRut(rut: String): boolean
-            + validarNombreUsuario(nombre: String): boolean
-            + validarCorreo(correo: String): boolean
-            + validarContrasenia(contrasenia: String): boolean
-            + validarTitulo(titulo: String): boolean
-            + validarDescripcion(descripcion: String): boolean
-            + validarDuracion(duracion: int): boolean
-            + validarPromedio(promedio: double): boolean
-            + validarTipoAyudantia(tipo: String): boolean
-            + validarAsignatura(asignatura: String): boolean
-            + validarHorasSemanales(horas: int): boolean
-            + validarTipoProyecto(tipo: String): boolean
-            + validarDuracionMeses(meses: int): boolean
-            + validarCarreras(carreras: String): boolean
-            + validarCantidadEstudiantes(cantidad: int): boolean
-            + leerArchivoOfertas(): void
-            + guardarUsuarios(usuarios: Usuario[], rutaArchivo: String): boolean
-            + leerUsuarios(rutaArchivo: String): Usuario[]
-            + guardarOfertas(ofertas: Oferta[], rutaArchivo: String): boolean
-            + getUsuarioActual(): Usuario
-        }
-    }
-
+         class SistemaOfertasUCN {
+             - contenedorOfertas: ContenedorOfertas
+             - usuarioActual: Usuario
+             - usuarios: Usuario[]
+             - archivoOfertas: String
+             - SistemaOfertasUCN()
+             + registrarUsuario(nombre: String, rut: String, correo: String, contrasenia: String): boolean
+             + iniciarSesion(rut: String, contrasenia: String): boolean
+             + ingresarOferta(): void
+             + buscarOferta(): void
+             + verOfertas(): void
+             + editarOferta(): void
+             + eliminarOferta(): void
+             + verPerfil(): void
+             + editarPerfil(): void
+             + cerrarSesion(): void
+             + validarRut(rut: String): boolean
+             + validarNombreUsuario(nombre: String): boolean
+             + validarCorreo(correo: String): boolean
+             + validarContrasenia(contrasenia: String): boolean
+             + validarTitulo(titulo: String): boolean
+             + validarDescripcion(descripcion: String): boolean
+             + validarDuracion(duracion: int): boolean
+             + validarPromedio(promedio: double): boolean
+             + validarTipoAyudantia(tipo: String): boolean
+             + validarAsignatura(asignatura: String): boolean
+             + validarHorasSemanales(horas: int): boolean
+             + validarTipoProyecto(tipo: String): boolean
+             + validarDuracionMeses(meses: int): boolean
+             + validarCarreras(carreras: String): boolean
+             + validarCantidadEstudiantes(cantidad: int): boolean
+             + leerArchivoOfertas(): void
+             + guardarUsuarios(usuarios: Usuario[], rutaArchivo: String): boolean
+             + leerUsuarios(rutaArchivo: String): Usuario[]
+             + guardarOfertas(ofertas: Oferta[], rutaArchivo: String): boolean
+             + getUsuarioActual(): Usuario
+         }
+     }
     package dominio {
         class Usuario {
             - nombre: String
@@ -152,7 +152,7 @@ package cl.ucn.disc.pa.taller3 {
 
 
 Usuario "1" -- "*" Oferta : gestiona >
-VistaConsola "1" *-- "1" SistemaOfertasUCN : utiliza
+VistaConsola "1" *-- "1" SistemaOfertas : utiliza
 SistemaOfertasUCN ..|> SistemaOfertas
 SistemaOfertasUCN "1" *-- "1" ContenedorOfertas
 ContenedorOfertas o-- Oferta : contiene
