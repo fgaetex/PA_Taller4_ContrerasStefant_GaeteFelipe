@@ -2,66 +2,50 @@
 'https://plantuml.com/class-diagram
 
 package cl.ucn.disc.pa.taller3 {
- package cl.ucn.disc.pa.taller3 {
-     package vista {
-         class VistaConsola {
-             - sistema: SistemaOfertas
-             + VistaConsola(sistema: SistemaOfertas)
-             + iniciar(): void
-             + lecturaEnteros(frase: String): int
-         }
-     }
+    package vista {
+        class VistaConsola {
+            - sistema: SistemaOfertas
+            + VistaConsola(sistema: SistemaOfertas)
+            + iniciar(): void
+            + lecturaEnteros(frase: String): int
+        }
+    }
 
-     package servicios {
-         interface SistemaOfertas {
-             + ingresarOferta(): void
-             + buscarOferta(): void
-             + verOfertas(): void
-             + editarOferta(): void
-             + eliminarOferta(): void
-             + verPerfil(): void
-             + editarPerfil(): void
-             + cerrarSesion(): void
-         }
+    package servicios {
+        interface SistemaOfertas {
+            + registrarUsuario(nombre: String, rut: String, correo: String, contrasenia: String): boolean
+            + iniciarSesion(rut: String, contrasenia: String): boolean
+            + ingresarOferta(): void
+            + buscarOferta(): void
+            + verOfertas(): void
+            + editarOferta(): void
+            + eliminarOferta(): void
+            + verPerfil(): void
+            + editarPerfil(): void
+            + cerrarSesion(): void
+        }
 
-         class SistemaOfertasUCN {
-             - contenedorOfertas: ContenedorOfertas
-             - usuarioActual: Usuario
-             - usuarios: Usuario[]
-             - archivoOfertas: String
-             - SistemaOfertasUCN()
-             + registrarUsuario(nombre: String, rut: String, correo: String, contrasenia: String): boolean
-             + iniciarSesion(rut: String, contrasenia: String): boolean
-             + ingresarOferta(): void
-             + buscarOferta(): void
-             + verOfertas(): void
-             + editarOferta(): void
-             + eliminarOferta(): void
-             + verPerfil(): void
-             + editarPerfil(): void
-             + cerrarSesion(): void
-             + validarRut(rut: String): boolean
-             + validarNombreUsuario(nombre: String): boolean
-             + validarCorreo(correo: String): boolean
-             + validarContrasenia(contrasenia: String): boolean
-             + validarTitulo(titulo: String): boolean
-             + validarDescripcion(descripcion: String): boolean
-             + validarDuracion(duracion: int): boolean
-             + validarPromedio(promedio: double): boolean
-             + validarTipoAyudantia(tipo: String): boolean
-             + validarAsignatura(asignatura: String): boolean
-             + validarHorasSemanales(horas: int): boolean
-             + validarTipoProyecto(tipo: String): boolean
-             + validarDuracionMeses(meses: int): boolean
-             + validarCarreras(carreras: String): boolean
-             + validarCantidadEstudiantes(cantidad: int): boolean
-             + leerArchivoOfertas(): void
-             + guardarUsuarios(usuarios: Usuario[], rutaArchivo: String): boolean
-             + leerUsuarios(rutaArchivo: String): Usuario[]
-             + guardarOfertas(ofertas: Oferta[], rutaArchivo: String): boolean
-             + getUsuarioActual(): Usuario
-         }
-     }
+        class SistemaOfertasUCN {
+            - contenedorOfertas: ContenedorOfertas
+            - usuarioActual: Usuario
+            - usuarios: Usuario[]
+            - cantidadUsuarios: int
+            - archivoOfertas: String
+            + SistemaOfertasUCN()
+            + registrarUsuario(nombre: String, rut: String, correo: String, contrasenia: String): boolean
+            + iniciarSesion(rut: String, contrasenia: String): boolean
+            + ingresarOferta(): void
+            + buscarOferta(): void
+            + verOfertas(): void
+            + editarOferta(): void
+            + eliminarOferta(): void
+            + verPerfil(): void
+            + editarPerfil(): void
+            + cerrarSesion(): void
+            + getUsuarioActual(): Usuario
+        }
+    }
+
     package dominio {
         class Usuario {
             - nombre: String
@@ -94,8 +78,7 @@ package cl.ucn.disc.pa.taller3 {
             - fechaInicio: LocalDate
             - nombreEmpresa: String
             - nombreGuia: String
-            + ActividadEmpresa(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
-                             fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String)
+            + ActividadEmpresa(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int, fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String)
             + gets()
             + sets()
         }
@@ -106,8 +89,7 @@ package cl.ucn.disc.pa.taller3 {
             - horasSemanales: int
             - promedioMinimo: double
             - tipoAyudantia: String
-            + Ayudantia(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
-                      nombreAsignatura: String, rolAyudante: String, horasSemanales: int, promedioMinimo: double, tipoAyudantia: String)
+            + Ayudantia(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int, nombreAsignatura: String, rolAyudante: String, horasSemanales: int, promedioMinimo: double, tipoAyudantia: String)
             + gets()
             + sets()
             + toString(): String
@@ -118,9 +100,7 @@ package cl.ucn.disc.pa.taller3 {
             - duracionMeses: int
             - carrerasNecesarias: String[]
             - cantidadMinEstudiantes: int
-            + Capstone(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
-                    fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String, tipoProyecto: String,
-                    duracionMeses: int, carrerasNecesarias: String[], cantidadMinEstudiantes: int)
+            + Capstone(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int, fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String, tipoProyecto: String, duracionMeses: int, carrerasNecesarias: String[], cantidadMinEstudiantes: int)
             + gets()
             + sets()
             + toString(): String
@@ -128,8 +108,7 @@ package cl.ucn.disc.pa.taller3 {
 
         class Practica extends ActividadEmpresa {
             - poseeRemuneracion: boolean
-            + Practica(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int,
-                    fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String, poseeRemuneracion: boolean)
+            + Practica(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int, fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String, poseeRemuneracion: boolean)
             + gets()
             + sets()
             + toString(): String
@@ -148,13 +127,181 @@ package cl.ucn.disc.pa.taller3 {
             + eliminar(id: String): boolean
         }
     }
+
+    package utilidades {
+        class ValidadorEntrada {
+            + validarEnteros(mensaje: String): int
+            + validarDouble(mensaje: String): double
+            + validarString(mensaje: String): String
+            + validarRut(rut: String): boolean
+            + validarCorreo(correo: String): boolean
+            + validarTexto(texto: String, minLength: int, maxLength: int): boolean
+            + validarPromedio(promedio: double): boolean
+            + validarHoras(horas: int): boolean
+            + validarDuracion(dias: int): boolean
+            + validarDuracionMeses(meses: int): boolean
+            + validarCantidadEstudiantes(cantidad: int): boolean
+            + validarTipoAyudantia(tipo: String): boolean
+            + validarTipoProyecto(tipo: String): boolean
+        }
+    }
 }
 
+@startuml
+'https://plantuml.com/class-diagram
+
+package cl.ucn.disc.pa.taller3 {
+    package vista {
+        class VistaConsola {
+            - sistema: SistemaOfertas
+            + VistaConsola(sistema: SistemaOfertas)
+            + iniciar(): void
+            + lecturaEnteros(frase: String): int
+        }
+    }
+
+    package servicios {
+        interface SistemaOfertas {
+            + registrarUsuario(nombre: String, rut: String, correo: String, contrasenia: String): boolean
+            + iniciarSesion(rut: String, contrasenia: String): boolean
+            + ingresarOferta(): void
+            + buscarOferta(): void
+            + verOfertas(): void
+            + editarOferta(): void
+            + eliminarOferta(): void
+            + verPerfil(): void
+            + editarPerfil(): void
+            + cerrarSesion(): void
+        }
+
+        class SistemaOfertasUCN {
+            - contenedorOfertas: ContenedorOfertas
+            - usuarioActual: Usuario
+            - usuarios: Usuario[]
+            - cantidadUsuarios: int
+            - archivoOfertas: String
+            + SistemaOfertasUCN()
+            + registrarUsuario(nombre: String, rut: String, correo: String, contrasenia: String): boolean
+            + iniciarSesion(rut: String, contrasenia: String): boolean
+            + ingresarOferta(): void
+            + buscarOferta(): void
+            + verOfertas(): void
+            + editarOferta(): void
+            + eliminarOferta(): void
+            + verPerfil(): void
+            + editarPerfil(): void
+            + cerrarSesion(): void
+            + getUsuarioActual(): Usuario
+        }
+    }
+
+    package dominio {
+        class Usuario {
+            - nombre: String
+            - rut: String
+            - correo: String
+            - contrasenia: String
+            + Usuario(nombre: String, rut: String, correo: String, contrasenia: String)
+            + gets()
+            + sets()
+            + verificarContrasenia(contrasenia: String): boolean
+            + toString(): String
+        }
+
+        abstract class Oferta {
+            - id: String
+            - titulo: String
+            - descripcion: String
+            - nombreUnidad: String
+            - duracionDias: int
+            - fechaPublicacion: LocalDate
+            - fechaCierre: LocalDate
+            + Oferta(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int)
+            + gets()
+            + sets()
+            + calcularFechas(): void
+            + toString(): String
+        }
+
+        abstract class ActividadEmpresa extends Oferta {
+            - fechaInicio: LocalDate
+            - nombreEmpresa: String
+            - nombreGuia: String
+            + ActividadEmpresa(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int, fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String)
+            + gets()
+            + sets()
+        }
+
+        class Ayudantia extends Oferta {
+            - nombreAsignatura: String
+            - rolAyudante: String
+            - horasSemanales: int
+            - promedioMinimo: double
+            - tipoAyudantia: String
+            + Ayudantia(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int, nombreAsignatura: String, rolAyudante: String, horasSemanales: int, promedioMinimo: double, tipoAyudantia: String)
+            + gets()
+            + sets()
+            + toString(): String
+        }
+
+        class Capstone extends ActividadEmpresa {
+            - tipoProyecto: String
+            - duracionMeses: int
+            - carrerasNecesarias: String[]
+            - cantidadMinEstudiantes: int
+            + Capstone(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int, fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String, tipoProyecto: String, duracionMeses: int, carrerasNecesarias: String[], cantidadMinEstudiantes: int)
+            + gets()
+            + sets()
+            + toString(): String
+        }
+
+        class Practica extends ActividadEmpresa {
+            - poseeRemuneracion: boolean
+            + Practica(id: String, titulo: String, descripcion: String, nombreUnidad: String, duracionDias: int, fechaInicio: LocalDate, nombreEmpresa: String, nombreGuia: String, poseeRemuneracion: boolean)
+            + gets()
+            + sets()
+            + toString(): String
+        }
+
+        class ContenedorOfertas {
+            - ofertas: Oferta[]
+            - cantidadMaxima: int
+            - cantidadActual: int
+            + ContenedorOfertas(cantidadMaxima: int)
+            + getCantidadActual(): int
+            + agregar(nueva: Oferta): void
+            + buscarPorId(id: String): int
+            + buscarPorTitulo(titulo: String): int
+            + obtener(posicion: int): Oferta
+            + eliminar(id: String): boolean
+        }
+    }
+
+    package utilidades {
+        class ValidadorEntrada {
+            + validarEnteros(mensaje: String): int
+            + validarDouble(mensaje: String): double
+            + validarString(mensaje: String): String
+            + validarRut(rut: String): boolean
+            + validarCorreo(correo: String): boolean
+            + validarTexto(texto: String, minLength: int, maxLength: int): boolean
+            + validarPromedio(promedio: double): boolean
+            + validarHoras(horas: int): boolean
+            + validarDuracion(dias: int): boolean
+            + validarDuracionMeses(meses: int): boolean
+            + validarCantidadEstudiantes(cantidad: int): boolean
+            + validarTipoAyudantia(tipo: String): boolean
+            + validarTipoProyecto(tipo: String): boolean
+        }
+    }
+}
 
 Usuario "1" -- "*" Oferta : gestiona >
-VistaConsola "1" *-- "1" SistemaOfertas : utiliza
+VistaConsola "1" --> "1" SistemaOfertas : utiliza
 SistemaOfertasUCN ..|> SistemaOfertas
-SistemaOfertasUCN "1" *-- "1" ContenedorOfertas
-ContenedorOfertas o-- Oferta : contiene
+SistemaOfertasUCN "1" o-- "1" ContenedorOfertas
+SistemaOfertasUCN "1" o-- "*" Usuario : gestiona
+ContenedorOfertas o-- "*" Oferta : contiene
+
 
 @enduml
