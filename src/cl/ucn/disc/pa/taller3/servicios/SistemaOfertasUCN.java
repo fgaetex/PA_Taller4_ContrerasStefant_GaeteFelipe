@@ -99,6 +99,7 @@ public class SistemaOfertasUCN implements SistemaOfertas {
      * @param rut          El RUT del usuario.
      * @param correo       El correo electrónico del usuario.
      * @param contrasenia  La contraseña del usuario.
+     * @return true        Si el usuario se registro correctamente.
      */
 
     public boolean registrarUsuario(String nombre, String rut, String correo, String contrasenia) {
@@ -152,9 +153,9 @@ public class SistemaOfertasUCN implements SistemaOfertas {
     /**
      * Verifica el inicio de sesión mediante la comprobación de su rut y contraseña y retorna el perfil en caso de existir
      *
-     * @param rut El rut del usuario.
+     * @param rut         El rut del usuario.
      * @param contrasenia La contraseña del usuario.
-     * @return true Si el usuario es correcto.
+     * @return false      Si el rut o contraseña es incorrecta.
      */
 
     public boolean iniciarSesion(String rut, String contrasenia) {
