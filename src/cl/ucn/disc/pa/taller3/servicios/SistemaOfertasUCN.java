@@ -28,6 +28,14 @@ public class SistemaOfertasUCN implements SistemaOfertas {
             StdOut.println("Error al cargar ofertas: " + e.getMessage());
         }
     }
+    
+    /**
+     * Se registra las ofertas del archivo "OfertasAcademicas.txt" en el programa.
+     * Si el archivo no existe se muestra un mensaje de error.
+     *
+     * @throws IOException Si ocurre un error al acceder o leer el archivo.
+     *
+     */
 
     // Lectura del archivo de ofertas
     private void leerArchivoOfertas() throws IOException {
@@ -82,6 +90,16 @@ public class SistemaOfertasUCN implements SistemaOfertas {
             StdOut.println("Error al leer archivo de ofertas: " + e.getMessage());
         }
     }
+    
+    /**
+     * Registra un nuevo usuario en el sistema después de realizar una serie de validaciones sobre los datos ingresados.
+     * También verifica que no exista ya un usuario con el mismo RUT o correo y que haya espacio disponible en el arreglo de usuarios.
+     *
+     * @param nombre       El nombre del usuario.
+     * @param rut          El RUT del usuario.
+     * @param correo       El correo electrónico del usuario.
+     * @param contrasenia  La contraseña del usuario.
+     */
 
     public boolean registrarUsuario(String nombre, String rut, String correo, String contrasenia) {
         // Validaciones
@@ -130,6 +148,14 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         StdOut.println("Usuario registrado exitosamente.");
         return true;
     }
+    
+    /**
+     * Verifica el inicio de sesión mediante la comprobación de su rut y contraseña y retorna el perfil en caso de existir
+     *
+     * @param rut El rut del usuario.
+     * @param contrasenia La contraseña del usuario.
+     * @return true Si el usuario es correcto.
+     */
 
     public boolean iniciarSesion(String rut, String contrasenia) {
         // Formatear RUT
@@ -145,6 +171,13 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         StdOut.println("Error: RUT o contraseña incorrectos.");
         return false;
     }
+    /**
+     * Se ingresa una nueva oferta académica que puede ser Ayudantía, Capstone o Practica pre-profesional.
+     * Si el ID existe se muestra un mensaje de error.
+     *
+     * @throws IOException Si ocurre un error al interactuar con el usuario.
+     *
+     */
 
     @Override
     public void ingresarOferta() throws IOException {
@@ -291,6 +324,12 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         StdOut.println("Oferta agregada exitosamente.");
     }
 
+     /**
+     * Busca una oferta académica usando el ID o el título.
+     * @throws IOException Si no se encuentra la fecha.
+     *
+     */
+
     @Override
     public void buscarOferta() throws IOException {
         StdOut.println("\n=== BUSCAR OFERTA ===");
@@ -322,6 +361,13 @@ public class SistemaOfertasUCN implements SistemaOfertas {
             StdOut.println("No se encontró la oferta.");
         }
     }
+    
+    /**
+     * Muestras todas las ofertas académicas registradas en el sistema.
+     *
+     * @throws IOException si ocurre un error de entrada/salida al mostrar los datos.
+     *
+     */
 
     @Override
     public void verOfertas() throws IOException {
@@ -343,6 +389,13 @@ public class SistemaOfertasUCN implements SistemaOfertas {
             StdOut.println("Duración: " + oferta.getDuracionDias() + " días");
         }
     }
+    
+    /**
+     * Permite editar una oferta académica a partir de su ID.
+     *
+     * @throws IOException Sí ocurre un error de entrada/salida al editar una oferta.
+     *
+     */
 
     @Override
     public void editarOferta() throws IOException {
@@ -365,6 +418,13 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         StdOut.println("\nIngrese los nuevos datos:");
         ingresarOferta();
     }
+    
+    /**
+     * Permite eliminar una oferta académica a partir de su ID.
+     *
+     * @throws IOException Sí ocurre un error de entrada/salida al eliminar una oferta.
+     *
+     */
 
     @Override
     public void eliminarOferta() throws IOException {
@@ -393,6 +453,13 @@ public class SistemaOfertasUCN implements SistemaOfertas {
             StdOut.println("Eliminación cancelada.");
         }
     }
+    
+    /**
+     * Despliega la información del usuario mostrando el nombre, rut y correo.
+     *
+     * @throws IOException Sí ocurre un error al mostrar el perfil.
+     *
+     */
 
     @Override
     public void verPerfil() throws IOException {
@@ -401,6 +468,13 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         StdOut.println("RUT: " + usuarioActual.getRut());
         StdOut.println("Correo: " + usuarioActual.getCorreo());
     }
+
+     /**
+     * Permite editar el perfil del usuario actual cambiando su nombre o correo.
+     *
+     * @throws IOException Sí ocurre un error de entrada/salida al editar el perfil.
+     *
+     */
 
     @Override
     public void editarPerfil() throws IOException {
@@ -433,6 +507,14 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         usuarioActual.setCorreo(nuevoCorreo);
         StdOut.println("Perfil actualizado exitosamente.");
     }
+    
+     /**
+     * Se cierra la sesión actual.
+     *
+     * @throws IOException Sí ocurre un error al cerrar.
+     *
+     */
+
 
     @Override
     public void cerrarSesion() throws IOException {
