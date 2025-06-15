@@ -1,4 +1,4 @@
-package cl.ucn.disc.pa.taller3.dominio;
+package cl.ucn.disc.pa.taller4.dominio;
 
 public class Ayudantia extends Oferta {
     private String nombreAsignatura;

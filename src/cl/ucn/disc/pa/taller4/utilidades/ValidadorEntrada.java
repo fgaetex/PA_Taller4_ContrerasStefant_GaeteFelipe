@@ -1,4 +1,4 @@
-package cl.ucn.disc.pa.taller3.utilidades;
+package cl.ucn.disc.pa.taller4.utilidades;
 
 import ucn.StdIn;
 import ucn.StdOut;

@@ -1,4 +1,4 @@
-package cl.ucn.disc.pa.taller3.dominio;
+package cl.ucn.disc.pa.taller4.dominio;
 
 import java.time.LocalDate;
 import java.util.Arrays;

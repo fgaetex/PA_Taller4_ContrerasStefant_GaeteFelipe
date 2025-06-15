@@ -1,7 +1,7 @@
-package cl.ucn.disc.pa.taller3.servicios;
+package cl.ucn.disc.pa.taller4.servicios;
 
-import cl.ucn.disc.pa.taller3.dominio.*;
-import cl.ucn.disc.pa.taller3.utilidades.ValidadorEntrada;
+import cl.ucn.disc.pa.taller4.dominio.*;
+import cl.ucn.disc.pa.taller4.utilidades.ValidadorEntrada;
 import ucn.StdIn;
 import ucn.StdOut;
 

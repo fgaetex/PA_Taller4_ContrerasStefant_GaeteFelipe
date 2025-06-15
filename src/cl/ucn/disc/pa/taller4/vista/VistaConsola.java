@@ -1,8 +1,8 @@
-package cl.ucn.disc.pa.taller3.vista;
+package cl.ucn.disc.pa.taller4.vista;
 
-import cl.ucn.disc.pa.taller3.servicios.SistemaOfertas;
-import cl.ucn.disc.pa.taller3.servicios.SistemaOfertasUCN;
-import cl.ucn.disc.pa.taller3.utilidades.ValidadorEntrada;
+import cl.ucn.disc.pa.taller4.servicios.SistemaOfertas;
+import cl.ucn.disc.pa.taller4.servicios.SistemaOfertasUCN;
+import cl.ucn.disc.pa.taller4.utilidades.ValidadorEntrada;
 import ucn.StdOut;
 
 public class VistaConsola {

@@ -1,7 +1,7 @@
-package cl.ucn.disc.pa.taller3;
+package cl.ucn.disc.pa.taller4;
 
-import cl.ucn.disc.pa.taller3.servicios.SistemaOfertasUCN;
-import cl.ucn.disc.pa.taller3.vista.VistaConsola;
+import cl.ucn.disc.pa.taller4.servicios.SistemaOfertasUCN;
+import cl.ucn.disc.pa.taller4.vista.VistaConsola;
 
 /**
  * Clase principal del sistema de gestión de ofertas academicas.
