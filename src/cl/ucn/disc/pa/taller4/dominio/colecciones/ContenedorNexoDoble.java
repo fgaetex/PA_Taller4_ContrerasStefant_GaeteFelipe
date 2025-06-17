@@ -159,7 +159,7 @@ public class ContenedorNexoDoble implements Lista {
     /**
      * Agrega un elemento en una posición específica.
      *
-     * @param posicion la posición donde insertar (0-based)
+     * @param posicion la posición donde insertar
      * @param elemento el elemento a insertar
      * @throws IndexOutOfBoundsException si la posición es inválida
      */
@@ -219,7 +219,7 @@ public class ContenedorNexoDoble implements Lista {
     /**
      * Obtiene el elemento en una posición específica.
      *
-     * @param posicion la posición del elemento (0-based)
+     * @param posicion la posición del elemento
      * @return el elemento en la posición especificada
      * @throws IndexOutOfBoundsException si la posición es inválida
      */
