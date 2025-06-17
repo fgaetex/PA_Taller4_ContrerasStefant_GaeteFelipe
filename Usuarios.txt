@@ -1,0 +1,10 @@
+admin,11.111.111-1,admin@admin.cl,PasswordAdmin
+user2,22.222.222-2,user2@gmail.com,PasswordUser2
+user3,33.333.333-3,user3@gmail.com,PasswordUser3
+user4,44.444.444-4,user4@gmail.com,PasswordUser4
+user5,55.555.555-5,user5@gmail.com,PasswordUser5
+user6,66.666.666-6,user6@gmail.com,PasswordUser6
+user7,77.777.777-7,user7@hotmail.com,PasswordUser7
+user8,88.888.888-8,user8@outlook.com,PasswordUser8
+user9,99.999.999-9,user9@gmail.com,PasswordUser9
+user10,10.101.010-0,user10@yahoo.com,PasswordUser10
