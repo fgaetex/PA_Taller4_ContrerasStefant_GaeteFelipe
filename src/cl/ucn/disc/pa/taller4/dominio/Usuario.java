@@ -1,10 +1,15 @@
 package cl.ucn.disc.pa.taller4.dominio;
 
-public class Usuario {
+
+import cl.ucn.disc.pa.taller4.dominio.colecciones.Elemento;
+
+
+public class Usuario implements Elemento {
     private String nombre;
     private String rut;
     private String correo;
     private String contrasenia;
+
 
     public Usuario(String nombre, String rut, String correo, String contrasenia) {
         this.nombre = nombre;
@@ -47,6 +52,15 @@ public class Usuario {
 
     public boolean verificarContrasenia(String contrasenia) {
         return this.contrasenia.equals(contrasenia);
+    }
+
+    @Override
+    public boolean esIgual(Elemento elemento) {
+        if (elemento == null || !(elemento instanceof Usuario)) {
+            return false;
+        }
+        Usuario otroUsuario = (Usuario) elemento;
+        return this.rut.equals(otroUsuario.rut);
     }
 
     @Override

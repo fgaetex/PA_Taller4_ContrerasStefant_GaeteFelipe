@@ -1,5 +1,6 @@
 package cl.ucn.disc.pa.taller4.dominio;
 
+
 import java.time.LocalDate;
 
 public class Practica extends ActividadEmpresa {

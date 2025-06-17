@@ -1,8 +1,9 @@
 package cl.ucn.disc.pa.taller4.dominio;
-
 import java.time.LocalDate;
+import cl.ucn.disc.pa.taller4.dominio.colecciones.Elemento;
 
-public abstract class Oferta {
+
+public abstract class Oferta implements Elemento {
     private String id;
     private String titulo;
     private String descripcion;
@@ -80,6 +81,15 @@ public abstract class Oferta {
     public void calcularFechas() {
         this.fechaPublicacion = LocalDate.now();
         this.fechaCierre = this.fechaPublicacion.plusDays(duracionDias);
+    }
+
+    @Override
+    public boolean esIgual(Elemento elemento) {
+        if (elemento == null || !(elemento instanceof Oferta)) {
+            return false;
+        }
+        Oferta otraOferta = (Oferta) elemento;
+        return this.id.equals(otraOferta.id);
     }
 
     @Override

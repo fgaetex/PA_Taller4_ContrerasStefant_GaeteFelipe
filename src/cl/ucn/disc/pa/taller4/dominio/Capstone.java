@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Capstone extends ActividadEmpresa {
     private String tipoProyecto;
     private int duracionMeses;
-    private String [] carrerasNecesarias;
+    private String[] carrerasNecesarias;
     private int cantidadMinEstudiantes;
 
     public Capstone(String id, String titulo, String descripcion, String nombreUnidad, int duracionDias, LocalDate fechaInicio, String nombreEmpresa, String nombreGuia, String tipoProyecto, int duracionMeses, String[] carrerasNecesarias, int cantidadMinEstudiantes) {
