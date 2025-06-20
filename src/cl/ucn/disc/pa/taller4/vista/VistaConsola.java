@@ -18,10 +18,8 @@ public class VistaConsola {
     public void iniciar() {
         StdOut.println("=== SISTEMA DE OFERTAS ACADÉMICAS UCN ===");
 
-        // Menu de registro/login
         menuRegistroLogin();
 
-        // Menu principal (solo si hay usuario logueado)
         if (sistemaUCN.getUsuarioActual() != null) {
             menuPrincipal();
         }

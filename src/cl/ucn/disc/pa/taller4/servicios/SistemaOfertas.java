@@ -23,5 +23,4 @@ public interface SistemaOfertas {
     void editarPerfil() throws IOException;
 
     void cerrarSesion() throws IOException;
-
 }

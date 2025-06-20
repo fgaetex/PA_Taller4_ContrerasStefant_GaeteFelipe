@@ -9,6 +9,7 @@ import cl.ucn.disc.pa.taller4.vista.VistaConsola;
  *
  */
 
+
 public class Main {
     public static void main(String[] args) {
         SistemaOfertasUCN sistema = new SistemaOfertasUCN();
@@ -16,3 +17,4 @@ public class Main {
         vista.iniciar();
     }
 }
+

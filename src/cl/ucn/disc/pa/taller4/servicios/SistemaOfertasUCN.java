@@ -1,6 +1,8 @@
 package cl.ucn.disc.pa.taller4.servicios;
 
 import cl.ucn.disc.pa.taller4.dominio.*;
+import cl.ucn.disc.pa.taller4.dominio.colecciones.ContenedorNexoDoble;
+import cl.ucn.disc.pa.taller4.dominio.colecciones.ContenedorNexoSimple;
 import cl.ucn.disc.pa.taller4.utilidades.ValidadorEntrada;
 import ucn.StdIn;
 import ucn.StdOut;
@@ -11,33 +13,42 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class SistemaOfertasUCN implements SistemaOfertas {
-    private ContenedorOfertas contenedorOfertas;
+    private ContenedorNexoDoble contenedorOfertas;
+    private ContenedorNexoSimple contenedorUsuarios;
     private Usuario usuarioActual;
-    private Usuario[] usuarios;
-    private int cantidadUsuarios;
     private String archivoOfertas;
+    private String archivoUsuarios;
 
     public SistemaOfertasUCN() {
-        this.contenedorOfertas = new ContenedorOfertas(100);
-        this.usuarios = new Usuario[50];
-        this.cantidadUsuarios = 0;
+        this.contenedorOfertas = new ContenedorNexoDoble();
+        this.contenedorUsuarios = new ContenedorNexoSimple();
         this.archivoOfertas = "OfertasAcademicas.txt";
+        this.archivoUsuarios = "Usuarios.txt";
         try {
+            leerArchivoUsuarios();
             leerArchivoOfertas();
         } catch (IOException e) {
-            StdOut.println("Error al cargar ofertas: " + e.getMessage());
+            StdOut.println("Error al cargar datos: " + e.getMessage());
         }
     }
-    
-    /**
-     * Se registra las ofertas del archivo "OfertasAcademicas.txt" en el programa.
-     * Si el archivo no existe se muestra un mensaje de error.
-     *
-     * @throws IOException Si ocurre un error al acceder o leer el archivo.
-     *
-     */
 
-    // Lectura del archivo de ofertas
+    private void leerArchivoUsuarios() throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoUsuarios))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length >= 4) {
+                    Usuario usuario = new Usuario(datos[0], datos[1], datos[2], datos[3]);
+                    contenedorUsuarios.agregar(usuario);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            StdOut.println("Archivo de usuarios no encontrado. Se iniciará con usuarios vacíos.");
+        } catch (Exception e) {
+            StdOut.println("Error al leer archivo de usuarios: " + e.getMessage());
+        }
+    }
+
     private void leerArchivoOfertas() throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(archivoOfertas))) {
             String linea;
@@ -47,7 +58,6 @@ public class SistemaOfertasUCN implements SistemaOfertas {
                 String[] datos = linea.split(",");
 
                 if (datos[0].equals("A")) {
-                    // Ayudantia: A,001,Asistente de Laboratorio,Apoyo en el laboratorio,DIE,90,Electrotécnia,Ayudante de Laboratorio,10,5.5
                     Ayudantia ayudantia = new Ayudantia(
                             datos[1], datos[2], datos[3], datos[4],
                             Integer.parseInt(datos[5]), datos[6], datos[7],
@@ -56,7 +66,6 @@ public class SistemaOfertasUCN implements SistemaOfertas {
                     contenedorOfertas.agregar(ayudantia);
 
                 } else if (datos[0].equals("C")) {
-                    // Capstone: C,003,Sistema de Monitoreo,Desarrollo de sensores,DISC,180,01-08-2025,EcoTech Ltda.,Dr. Ricardo,Capstone,6,"Informatica",3
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                     LocalDate fechaInicio = LocalDate.parse(datos[6], formatter);
 
@@ -71,7 +80,6 @@ public class SistemaOfertasUCN implements SistemaOfertas {
                     contenedorOfertas.agregar(capstone);
 
                 } else if (datos[0].equals("P")) {
-                    // Practica: P,004,Práctica Desarrollo Web,Apoyo en desarrollo,DISC,120,01-07-2025,SoftWeb Ltda.,Dra. Elena,No
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                     LocalDate fechaInicio = LocalDate.parse(datos[6], formatter);
 
@@ -90,26 +98,56 @@ public class SistemaOfertasUCN implements SistemaOfertas {
             StdOut.println("Error al leer archivo de ofertas: " + e.getMessage());
         }
     }
-    
-    /**
-     * Registra un nuevo usuario en el sistema después de realizar una serie de validaciones sobre los datos ingresados.
-     * También verifica que no exista ya un usuario con el mismo RUT o correo y que haya espacio disponible en el arreglo de usuarios.
-     *
-     * @param nombre       El nombre del usuario.
-     * @param rut          El RUT del usuario.
-     * @param correo       El correo electrónico del usuario.
-     * @param contrasenia  La contraseña del usuario.
-     * @return true        Si el usuario se registro correctamente.
-     */
 
+    private void guardarArchivoUsuarios() throws IOException {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(archivoUsuarios))) {
+            for (int i = 0; i < contenedorUsuarios.tamanio(); i++) {
+                Usuario usuario = (Usuario) contenedorUsuarios.obtener(i);
+                pw.println(usuario.getNombre() + "," + usuario.getRut() + "," +
+                        usuario.getCorreo() + "," + usuario.getContrasenia());
+            }
+        }
+    }
+
+    private void guardarArchivoOfertas() throws IOException {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(archivoOfertas))) {
+            pw.println("Tipo de oferta: A se refiere a Ayudantía, C a Capstone, P a Práctica");
+
+            for (int i = 0; i < contenedorOfertas.tamanio(); i++) {
+                Oferta oferta = (Oferta) contenedorOfertas.obtener(i);
+
+                if (oferta instanceof Ayudantia) {
+                    Ayudantia a = (Ayudantia) oferta;
+                    pw.println("A," + a.getId() + "," + a.getTitulo() + "," + a.getDescripcion() + "," +
+                            a.getNombreUnidad() + "," + a.getDuracionDias() + "," + a.getNombreAsignatura() + "," +
+                            a.getRolAyudante() + "," + a.getHorasSemanales() + "," + a.getPromedioMinimo());
+                } else if (oferta instanceof Capstone) {
+                    Capstone c = (Capstone) oferta;
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    pw.println("C," + c.getId() + "," + c.getTitulo() + "," + c.getDescripcion() + "," +
+                            c.getNombreUnidad() + "," + c.getDuracionDias() + "," +
+                            c.getFechaInicio().format(formatter) + "," + c.getNombreEmpresa() + "," +
+                            c.getNombreGuia() + "," + c.getTipoProyecto() + "," + c.getDuracionMeses() + "," +
+                            java.util.Arrays.toString(c.getCarrerasNecesarias()) + "," + c.getCantidadMinEstudiantes());
+                } else if (oferta instanceof Practica) {
+                    Practica p = (Practica) oferta;
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    pw.println("P," + p.getId() + "," + p.getTitulo() + "," + p.getDescripcion() + "," +
+                            p.getNombreUnidad() + "," + p.getDuracionDias() + "," +
+                            p.getFechaInicio().format(formatter) + "," + p.getNombreEmpresa() + "," +
+                            p.getNombreGuia() + "," + (p.isPoseeRemuneracion() ? "Si" : "No"));
+                }
+            }
+        }
+    }
+
+    @Override
     public boolean registrarUsuario(String nombre, String rut, String correo, String contrasenia) {
-        // Validaciones
         if (!ValidadorEntrada.validarTexto(nombre, 3, 255)) {
             StdOut.println("Error: El nombre debe tener entre 3 y 255 caracteres.");
             return false;
         }
 
-        // Formatear RUT (remover puntos y guión si los tiene)
         rut = rut.replace(".", "").replace("-", "");
 
         if (!ValidadorEntrada.validarRut(rut)) {
@@ -127,44 +165,35 @@ public class SistemaOfertasUCN implements SistemaOfertas {
             return false;
         }
 
-        // Verificar que RUT y correo sean únicos
-        for (int i = 0; i < cantidadUsuarios; i++) {
-            if (usuarios[i].getRut().equals(rut)) {
-                StdOut.println("Error: Ya existe un usuario con ese RUT.");
-                return false;
-            }
-            if (usuarios[i].getCorreo().equals(correo)) {
+        Usuario nuevoUsuario = new Usuario(nombre, rut, correo, contrasenia);
+
+        if (contenedorUsuarios.contiene(nuevoUsuario)) {
+            StdOut.println("Error: Ya existe un usuario con ese RUT.");
+            return false;
+        }
+
+        // Verificar correo único
+        for (int i = 0; i < contenedorUsuarios.tamanio(); i++) {
+            Usuario u = (Usuario) contenedorUsuarios.obtener(i);
+            if (u.getCorreo().equals(correo)) {
                 StdOut.println("Error: Ya existe un usuario con ese correo.");
                 return false;
             }
         }
 
-        if (cantidadUsuarios >= usuarios.length) {
-            StdOut.println("Error: No se pueden registrar más usuarios.");
-            return false;
-        }
-
-        usuarios[cantidadUsuarios] = new Usuario(nombre, rut, correo, contrasenia);
-        cantidadUsuarios++;
+        contenedorUsuarios.agregar(nuevoUsuario);
         StdOut.println("Usuario registrado exitosamente.");
         return true;
     }
-    
-    /**
-     * Verifica el inicio de sesión mediante la comprobación de su rut y contraseña y retorna el perfil en caso de existir
-     *
-     * @param rut         El rut del usuario.
-     * @param contrasenia La contraseña del usuario.
-     * @return false      Si el rut o contraseña es incorrecta.
-     */
 
+    @Override
     public boolean iniciarSesion(String rut, String contrasenia) {
-        // Formatear RUT
         rut = rut.replace(".", "").replace("-", "");
 
-        for (int i = 0; i < cantidadUsuarios; i++) {
-            if (usuarios[i].getRut().equals(rut) && usuarios[i].verificarContrasenia(contrasenia)) {
-                usuarioActual = usuarios[i];
+        for (int i = 0; i < contenedorUsuarios.tamanio(); i++) {
+            Usuario usuario = (Usuario) contenedorUsuarios.obtener(i);
+            if (usuario.getRut().equals(rut) && usuario.verificarContrasenia(contrasenia)) {
+                usuarioActual = usuario;
                 StdOut.println("Sesión iniciada exitosamente. Bienvenido " + usuarioActual.getNombre());
                 return true;
             }
@@ -172,13 +201,6 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         StdOut.println("Error: RUT o contraseña incorrectos.");
         return false;
     }
-    /**
-     * Se ingresa una nueva oferta académica que puede ser Ayudantía, Capstone o Practica pre-profesional.
-     * Si el ID existe se muestra un mensaje de error.
-     *
-     * @throws IOException Si ocurre un error al interactuar con el usuario.
-     *
-     */
 
     @Override
     public void ingresarOferta() throws IOException {
@@ -189,21 +211,19 @@ public class SistemaOfertasUCN implements SistemaOfertas {
 
         int tipoOferta = ValidadorEntrada.validarEnteros("Seleccione el tipo de oferta");
 
-        // Verificar que el ID no exista
         String id;
         do {
             id = ValidadorEntrada.validarString("Ingrese ID de la oferta");
-            if (contenedorOfertas.buscarPorId(id) != -1) {
+            if (buscarOfertaPorId(id) != null) {
                 StdOut.println("Error: Ya existe una oferta con ese ID. Intente con otro.");
             }
-        } while (contenedorOfertas.buscarPorId(id) != -1);
+        } while (buscarOfertaPorId(id) != null);
 
         String titulo = ValidadorEntrada.validarString("Ingrese título");
         String descripcion = ValidadorEntrada.validarString("Ingrese descripción");
         String nombreUnidad = ValidadorEntrada.validarString("Ingrese nombre de la unidad");
         int duracionDias = ValidadorEntrada.validarEnteros("Ingrese duración en días");
 
-        // Validar datos comunes
         if (!ValidadorEntrada.validarTexto(titulo, 8, 255)) {
             StdOut.println("Error: El título debe tener entre 8 y 255 caracteres.");
             return;
@@ -225,7 +245,6 @@ public class SistemaOfertasUCN implements SistemaOfertas {
                 double promedio = ValidadorEntrada.validarDouble("Ingrese promedio mínimo");
                 String tipo = ValidadorEntrada.validarString("Ingrese tipo de ayudantía (taller/ayuda en clases)");
 
-                // Validaciones específicas de ayudantía
                 if (!ValidadorEntrada.validarTexto(asignatura, 6, 255) ||
                         !ValidadorEntrada.validarTexto(rol, 6, 255)) {
                     StdOut.println("Error: Asignatura y rol deben tener entre 6 y 255 caracteres.");
@@ -267,7 +286,6 @@ public class SistemaOfertasUCN implements SistemaOfertas {
                 String[] carreras = carrerasStr.split(",");
                 int cantidadMin = ValidadorEntrada.validarEnteros("Ingrese cantidad mínima de estudiantes (2-5)");
 
-                // Validaciones específicas de capstone
                 if (!ValidadorEntrada.validarTipoProyecto(tipoProyecto)) {
                     StdOut.println("Error: Tipo de proyecto debe ser Capstone, Investigacion o Memoria.");
                     return;
@@ -325,11 +343,25 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         StdOut.println("Oferta agregada exitosamente.");
     }
 
-     /**
-     * Busca una oferta académica usando el ID o el título.
-     * @throws IOException Si no se encuentra la fecha.
-     *
-     */
+    private Oferta buscarOfertaPorId(String id) {
+        for (int i = 0; i < contenedorOfertas.tamanio(); i++) {
+            Oferta oferta = (Oferta) contenedorOfertas.obtener(i);
+            if (oferta.getId().equals(id)) {
+                return oferta;
+            }
+        }
+        return null;
+    }
+
+    private Oferta buscarOfertaPorTitulo(String titulo) {
+        for (int i = 0; i < contenedorOfertas.tamanio(); i++) {
+            Oferta oferta = (Oferta) contenedorOfertas.obtener(i);
+            if (oferta.getTitulo().toLowerCase().contains(titulo.toLowerCase())) {
+                return oferta;
+            }
+        }
+        return null;
+    }
 
     @Override
     public void buscarOferta() throws IOException {
@@ -338,49 +370,41 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         StdOut.println("[2] Buscar por título");
 
         int opcion = ValidadorEntrada.validarEnteros("Seleccione opción");
-        int posicion = -1;
+        Oferta ofertaEncontrada = null;
 
         switch (opcion) {
             case 1:
                 String id = ValidadorEntrada.validarString("Ingrese ID de la oferta");
-                posicion = contenedorOfertas.buscarPorId(id);
+                ofertaEncontrada = buscarOfertaPorId(id);
                 break;
             case 2:
                 String titulo = ValidadorEntrada.validarString("Ingrese título de la oferta");
-                posicion = contenedorOfertas.buscarPorTitulo(titulo);
+                ofertaEncontrada = buscarOfertaPorTitulo(titulo);
                 break;
             default:
                 StdOut.println("Opción no válida.");
                 return;
         }
 
-        if (posicion != -1) {
-            Oferta oferta = contenedorOfertas.obtener(posicion);
+        if (ofertaEncontrada != null) {
             StdOut.println("\n=== OFERTA ENCONTRADA ===");
-            StdOut.println(oferta.toString());
+            StdOut.println(ofertaEncontrada.toString());
         } else {
             StdOut.println("No se encontró la oferta.");
         }
     }
-    
-    /**
-     * Muestras todas las ofertas académicas registradas en el sistema.
-     *
-     * @throws IOException si ocurre un error de entrada/salida al mostrar los datos.
-     *
-     */
 
     @Override
     public void verOfertas() throws IOException {
         StdOut.println("\n=== LISTADO DE OFERTAS ===");
 
-        if (contenedorOfertas.getCantidadActual() == 0) {
+        if (contenedorOfertas.isVacia()) {
             StdOut.println("No hay ofertas registradas.");
             return;
         }
 
-        for (int i = 0; i < contenedorOfertas.getCantidadActual(); i++) {
-            Oferta oferta = contenedorOfertas.obtener(i);
+        for (int i = 0; i < contenedorOfertas.tamanio(); i++) {
+            Oferta oferta = (Oferta) contenedorOfertas.obtener(i);
             StdOut.println("\n--- Oferta " + (i + 1) + " ---");
             StdOut.println("ID: " + oferta.getId());
             StdOut.println("Título: " + oferta.getTitulo());
@@ -390,62 +414,44 @@ public class SistemaOfertasUCN implements SistemaOfertas {
             StdOut.println("Duración: " + oferta.getDuracionDias() + " días");
         }
     }
-    
-    /**
-     * Permite editar una oferta académica a partir de su ID.
-     *
-     * @throws IOException Sí ocurre un error de entrada/salida al editar una oferta.
-     *
-     */
 
     @Override
     public void editarOferta() throws IOException {
         StdOut.println("\n=== EDITAR OFERTA ===");
         String id = ValidadorEntrada.validarString("Ingrese ID de la oferta a editar");
 
-        int posicion = contenedorOfertas.buscarPorId(id);
-        if (posicion == -1) {
+        Oferta ofertaActual = buscarOfertaPorId(id);
+        if (ofertaActual == null) {
             StdOut.println("No se encontró la oferta con ID: " + id);
             return;
         }
 
-        Oferta ofertaActual = contenedorOfertas.obtener(posicion);
         StdOut.println("Oferta actual: " + ofertaActual.toString());
 
-        // Eliminar la oferta actual
-        contenedorOfertas.eliminar(id);
+        contenedorOfertas.eliminar(ofertaActual);
 
-        // Crear nueva oferta con datos actualizados
         StdOut.println("\nIngrese los nuevos datos:");
         ingresarOferta();
     }
-    
-    /**
-     * Permite eliminar una oferta académica a partir de su ID.
-     *
-     * @throws IOException Sí ocurre un error de entrada/salida al eliminar una oferta.
-     *
-     */
 
     @Override
     public void eliminarOferta() throws IOException {
         StdOut.println("\n=== ELIMINAR OFERTA ===");
         String id = ValidadorEntrada.validarString("Ingrese ID de la oferta a eliminar");
 
-        int posicion = contenedorOfertas.buscarPorId(id);
-        if (posicion == -1) {
+        Oferta oferta = buscarOfertaPorId(id);
+        if (oferta == null) {
             StdOut.println("No se encontró la oferta con ID: " + id);
             return;
         }
 
-        Oferta oferta = contenedorOfertas.obtener(posicion);
         StdOut.println("Oferta a eliminar: " + oferta.toString());
 
         StdOut.println("¿Está seguro que desea eliminar esta oferta? [1] Sí [2] No");
         int confirmacion = ValidadorEntrada.validarEnteros("Seleccione opción");
 
         if (confirmacion == 1) {
-            if (contenedorOfertas.eliminar(id)) {
+            if (contenedorOfertas.eliminar(oferta)) {
                 StdOut.println("Oferta eliminada exitosamente.");
             } else {
                 StdOut.println("Error al eliminar la oferta.");
@@ -454,13 +460,6 @@ public class SistemaOfertasUCN implements SistemaOfertas {
             StdOut.println("Eliminación cancelada.");
         }
     }
-    
-    /**
-     * Despliega la información del usuario mostrando el nombre, rut y correo.
-     *
-     * @throws IOException Sí ocurre un error al mostrar el perfil.
-     *
-     */
 
     @Override
     public void verPerfil() throws IOException {
@@ -470,13 +469,6 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         StdOut.println("Correo: " + usuarioActual.getCorreo());
     }
 
-     /**
-     * Permite editar el perfil del usuario actual cambiando su nombre o correo.
-     *
-     * @throws IOException Sí ocurre un error de entrada/salida al editar el perfil.
-     *
-     */
-
     @Override
     public void editarPerfil() throws IOException {
         StdOut.println("\n=== EDITAR PERFIL ===");
@@ -484,7 +476,6 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         String nuevoNombre = ValidadorEntrada.validarString("Ingrese nuevo nombre");
         String nuevoCorreo = ValidadorEntrada.validarString("Ingrese nuevo correo");
 
-        // Validaciones
         if (!ValidadorEntrada.validarTexto(nuevoNombre, 3, 255)) {
             StdOut.println("Error: El nombre debe tener entre 3 y 255 caracteres.");
             return;
@@ -496,9 +487,9 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         }
 
         // Verificar que el correo sea único (excepto el actual)
-        for (int i = 0; i < cantidadUsuarios; i++) {
-            if (!usuarios[i].getRut().equals(usuarioActual.getRut()) &&
-                    usuarios[i].getCorreo().equals(nuevoCorreo)) {
+        for (int i = 0; i < contenedorUsuarios.tamanio(); i++) {
+            Usuario u = (Usuario) contenedorUsuarios.obtener(i);
+            if (!u.getRut().equals(usuarioActual.getRut()) && u.getCorreo().equals(nuevoCorreo)) {
                 StdOut.println("Error: Ya existe un usuario con ese correo.");
                 return;
             }
@@ -508,17 +499,17 @@ public class SistemaOfertasUCN implements SistemaOfertas {
         usuarioActual.setCorreo(nuevoCorreo);
         StdOut.println("Perfil actualizado exitosamente.");
     }
-    
-     /**
-     * Se cierra la sesión actual.
-     *
-     * @throws IOException Sí ocurre un error al cerrar.
-     *
-     */
-
 
     @Override
     public void cerrarSesion() throws IOException {
+        try {
+            guardarArchivoUsuarios();
+            guardarArchivoOfertas();
+            StdOut.println("Datos guardados exitosamente.");
+        } catch (IOException e) {
+            StdOut.println("Error al guardar datos: " + e.getMessage());
+        }
+
         usuarioActual = null;
         StdOut.println("Sesión cerrada exitosamente.");
     }
